@@ -77,10 +77,8 @@ class App extends Component {
   runExample = async () => {
     const { contract } = this.state;
 
-    // Get the value from the contract to prove it worked.
     const response = await contract.methods.get().call();
 
-    // Update state with the result.
     this.setState({ storageValue: response });
   };
 
@@ -90,7 +88,6 @@ class App extends Component {
     }
     return (
       <div className="App">
-        <h1>Good to Go!</h1>
         <div>The stored value is: {this.state.storageValue}</div>
         <form onSubmit={this.handleSubmit}>
           <div className="form-group">
