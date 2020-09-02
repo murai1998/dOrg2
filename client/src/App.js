@@ -47,15 +47,32 @@ class App extends Component {
       [e.target.name]: e.target.value
     });
   };
+  handleGet = async e => {
+    e.preventDefault();
+    const { contract } = this.state;
+    const result = await contract.methods.get().call();
+
+    console.log(result);
+  };
   handleSubmit = async e => {
     e.preventDefault();
-    const { accounts, contract } = this.state;
-    await contract.methods.set(this.state.newValue).send({ from: accounts[0] });
-
-    const response = await contract.methods.get().call();
-    this.setState({
-      storageValue: response
+    const { contract } = this.state;
+    const accounts = await window.ethereum.enable();
+    const account = accounts[0];
+    const gas = await contract.methods.set(this.state.newValue).estimateGas();
+    console.log(gas);
+    const result = await contract.methods.set(this.state.newValue).send({
+      from: account,
+      gas
     });
+    console.log(result);
+    // const { accounts, contract } = this.state;
+    // await contract.methods.set(this.state.newValue).send({ from: accounts[0] });
+
+    // const response = await contract.methods.get().call();
+    // this.setState({
+    //   storageValue: response
+    // });
   };
   runExample = async () => {
     const { contract } = this.state;
@@ -88,6 +105,10 @@ class App extends Component {
             </div>
           </div>
         </form>
+        <button onClick={this.handleGet} type="button">
+          Get details of transaction
+        </button>
+        {this.state.storageValue}
       </div>
     );
   }
