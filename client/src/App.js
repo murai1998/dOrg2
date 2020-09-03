@@ -12,8 +12,10 @@ class App extends Component {
     accounts: null,
     contract: null,
     newValue: "",
-    account: "",
-    recipient: ""
+
+    recipient: "",
+    showRes: false,
+    showForm: true
   };
 
   componentDidMount = async () => {
@@ -72,7 +74,9 @@ class App extends Component {
     console.log(result);
     this.setState({
       account: account,
-      recipient: result.to
+      recipient: result.to,
+      showRes: true,
+      showForm: false
     });
     // const { accounts, contract } = this.state;
     // await contract.methods.set(this.state.newValue).send({ from: accounts[0] });
@@ -94,7 +98,7 @@ class App extends Component {
     // if (!this.state.web3) {
     //   return <div>Loading Web3, accounts, and contract...</div>;
     // }
-    console.log(window.ethereum);
+    console.log("Account", this.state.account);
     return (
       <div className="App">
         <div>
@@ -180,37 +184,56 @@ class App extends Component {
                       Send Compliments to Your Coworkers
                     </h2>
 
-                    <form onSubmit={this.handleSubmit}>
-                      <div className="form-group">
-                        <input
-                          type="text"
-                          name="newValue"
-                          className="form-control"
-                          onChange={this.handleChange}
-                        />
-                        <div className="form-group">
-                          <input
-                            type="submit"
-                            value="Send"
-                            className="btn btn-primary"
-                          />
-                        </div>
-                      </div>
-                    </form>
-
-                    {this.state.storageValue}
-                    {window.ethereum ? (
+                    {this.state.showRes ? (
                       <div>
-                        <p class="text-white-50"> Successfully sent!</p>
-                        <p class="text-white-50">
-                          Sender: {this.state.account}
-                        </p>
-                        <p class="text-white-50">
-                          Recipient: {this.state.recipient}
-                        </p>
+                        {this.state.account === undefined ? (
+                          <div id="sentMes">
+                            <p class="text-white-50"> Successfully sent!</p>
+                            <p class="text-white-50">
+                              Sender: {this.state.account}
+                            </p>
+                            <p class="text-white-50">
+                              Recipient: {this.state.recipient}
+                            </p>
+                            <p class="text-white-50">
+                              Compliment: {this.state.storageValue}
+                            </p>
+                          </div>
+                        ) : (
+                          <div id="sentMes">
+                            <h2 className="text-white mb-4">Failed to send!</h2>
+                          </div>
+                        )}
                       </div>
                     ) : (
-                      <p class="text-white-50">MetaMask is not connected</p>
+                      <div>
+                        <p className="text-white mb-4">
+                          MetaMask is not connected
+                        </p>
+                      </div>
+                    )}
+                    {this.state.showForm ? (
+                      <form onSubmit={this.handleSubmit}>
+                        <div id="form4" className="form-group">
+                          <input
+                            type="text"
+                            name="newValue"
+                            id="inputFF"
+                            className="form-control"
+                            onChange={this.handleChange}
+                          />
+                          <div className="form-group">
+                            <input
+                              type="submit"
+                              value="Send"
+                              className="form-control"
+                              className="btn btn-primary"
+                            />
+                          </div>
+                        </div>
+                      </form>
+                    ) : (
+                      ""
                     )}
                   </div>
                   {/* <p class="text-white-50">

@@ -941,7 +941,25 @@ pre code {
 .order-12 {
   order: 12;
 }
-
+#form4{
+    display: flex;
+    flex-direction: row;
+}
+#inputFF{
+   height: 60px;
+font-size: 30px;
+}
+#sentMes{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 500px;
+   border: 1px solid black;
+   padding: 16px 0;
+    background-color: rgb(66, 65, 65);
+    
+}
 .offset-1 {
   margin-left: 8.3333333333%;
 }
