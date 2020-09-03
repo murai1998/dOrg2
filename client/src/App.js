@@ -10,7 +10,9 @@ class App extends Component {
     web3: null,
     accounts: null,
     contract: null,
-    newValue: ""
+    newValue: "",
+    account: "",
+    recipient: ""
   };
 
   componentDidMount = async () => {
@@ -59,6 +61,7 @@ class App extends Component {
     const { contract } = this.state;
     const accounts = await window.ethereum.enable();
     const account = accounts[0];
+
     const gas = await contract.methods.set(this.state.newValue).estimateGas();
     console.log(gas);
     const result = await contract.methods.set(this.state.newValue).send({
@@ -66,6 +69,10 @@ class App extends Component {
       gas
     });
     console.log(result);
+    this.setState({
+      account: account,
+      recipient: result.to
+    });
     // const { accounts, contract } = this.state;
     // await contract.methods.set(this.state.newValue).send({ from: accounts[0] });
 
@@ -86,6 +93,7 @@ class App extends Component {
     if (!this.state.web3) {
       return <div>Loading Web3, accounts, and contract...</div>;
     }
+    console.log(window.ethereum);
     return (
       <div className="App">
         <div>The stored value is: {this.state.storageValue}</div>
@@ -102,10 +110,17 @@ class App extends Component {
             </div>
           </div>
         </form>
-        <button onClick={this.handleGet} type="button">
-          Get details of transaction
-        </button>
+
         {this.state.storageValue}
+        {window.ethereum ? (
+          <div>
+            <p> The transaction has been successfully completed</p>
+            <p>Sender: {this.state.account}</p>
+            <p>Recipient: {this.state.recipient}</p>
+          </div>
+        ) : (
+          <p>MetaMask is not connected</p>
+        )}
       </div>
     );
   }
