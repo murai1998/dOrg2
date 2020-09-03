@@ -86,6 +86,14 @@ class App extends Component {
     //   storageValue: response
     // });
   };
+  addMore = e => {
+    this.setState({
+      account: "",
+      recipient: "",
+      showRes: false,
+      showForm: true
+    });
+  };
   runExample = async () => {
     const { contract } = this.state;
 
@@ -178,7 +186,10 @@ class App extends Component {
             <section class="signup-section" id="signup">
               <div class="container">
                 <div class="row">
-                  <div class="col-md-10 col-lg-8 mx-auto text-center">
+                  <div
+                    id="centered"
+                    class="col-md-10 col-lg-8 mx-auto text-center"
+                  >
                     <i class="far fa-paper-plane fa-2x mb-2 text-white"></i>
                     <h2 id="quest" class="text-white mb-5">
                       Send Compliments to Your Coworkers
@@ -186,9 +197,9 @@ class App extends Component {
 
                     {this.state.showRes ? (
                       <div>
-                        {this.state.account === undefined ? (
+                        {this.state.account !== undefined ? (
                           <div id="sentMes">
-                            <p class="text-white-50"> Successfully sent!</p>
+                            <p class="text-white mb-4"> Successfully sent!</p>
                             <p class="text-white-50">
                               Sender: {this.state.account}
                             </p>
@@ -196,8 +207,14 @@ class App extends Component {
                               Recipient: {this.state.recipient}
                             </p>
                             <p class="text-white-50">
-                              Compliment: {this.state.storageValue}
+                              Compliment: {this.state.newValue}
                             </p>
+                            <button
+                              onClick={this.addMore}
+                              className="btn btn-primary"
+                            >
+                              Add more
+                            </button>
                           </div>
                         ) : (
                           <div id="sentMes">
@@ -206,16 +223,13 @@ class App extends Component {
                         )}
                       </div>
                     ) : (
-                      <div>
-                        <p className="text-white mb-4">
-                          MetaMask is not connected
-                        </p>
-                      </div>
+                      <div></div>
                     )}
                     {this.state.showForm ? (
                       <form onSubmit={this.handleSubmit}>
                         <div id="form4" className="form-group">
                           <input
+                            maxLength="15"
                             type="text"
                             name="newValue"
                             id="inputFF"

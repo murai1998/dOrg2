@@ -956,7 +956,7 @@ font-size: 30px;
     align-items: center;
     width: 500px;
    border: 1px solid black;
-   padding: 16px 0;
+   padding: 16px;
     background-color: rgb(66, 65, 65);
     
 }
@@ -967,7 +967,12 @@ font-size: 30px;
 .offset-2 {
   margin-left: 16.6666666667%;
 }
-
+#centered{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
 .offset-3 {
   margin-left: 25%;
 }
